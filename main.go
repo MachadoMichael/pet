@@ -1,8 +1,8 @@
 package main
 
-import "github.com/MachadoMichael/pet/api/route"
+import "github.com/MachadoMichael/pet/api/server"
 
 func main() {
-	route.Start()
+	server.Start()
 
 }
