@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/MachadoMichael/pet/api/route"
 
 func main() {
-	fmt.Println("vim-go")
+	route.Start()
+
 }
