@@ -14,6 +14,6 @@ type Pet struct {
 	Breed            string    `json:"breed"`
 	Specie           string    `json:"specie"`
 	Tag              string    `json:"tag"`
+	Weight           float64   `json:"weight"`
 	Age              int       `json:"age"`
-	Weight           int       `json:"weight"`
 }
