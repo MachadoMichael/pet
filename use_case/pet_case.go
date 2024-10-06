@@ -10,11 +10,13 @@ import (
 
 type petCase struct {
 	repository database.Repository
+	photoCase  *photoCase
 }
 
-func NewPetCase(repository database.Repository) *petCase {
+func NewPetCase(repository database.Repository, photoCase *photoCase) *petCase {
 	return &petCase{
 		repository: repository,
+		photoCase:  photoCase,
 	}
 }
 
@@ -42,7 +44,7 @@ func (p *petCase) Create(dto dto.NewPetDTO, photos [5]string) (model.Pet, error)
 		photo := model.Photo{
 			ID:         ulid.MustNew(ulid.Now(), rand.Reader),
 			ProviderID: pet.ID.String(),
-			Image:      p,
+			Base64:     p,
 		}
 
 		err = photo.Save()
@@ -50,6 +52,6 @@ func (p *petCase) Create(dto dto.NewPetDTO, photos [5]string) (model.Pet, error)
 			return pet, err
 		}
 	}
-	return pet, nil
 
+	return p.repository.Save(pet)
 }

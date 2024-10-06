@@ -5,7 +5,7 @@ import (
 )
 
 type Photo struct {
-	ID         ulid.ULID `json:"id"`
-	ProviderID string    `json:"provider_id"`
-	Image      string    `json:"image"`
+	ID     ulid.ULID `json:"id"`
+	UserID ulid.ULID `json:"user_id"`
+	Base64 string    `json:"image"`
 }
