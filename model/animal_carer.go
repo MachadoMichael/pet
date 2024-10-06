@@ -13,7 +13,6 @@ type AnimalCarer struct {
 	Description      string    `json:"description"`
 	Tags             string    `json:"tags"`
 	ProofOfResidence string    `json:"proof_of_residence"`
-	Photos           [5]string `json:"photos"`
 	PixKey           string    `json:"pix_key"`
 	Age              int       `json:"age"`
 }
