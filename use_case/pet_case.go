@@ -42,9 +42,9 @@ func (p *petCase) Create(dto dto.NewPetDTO, photos [5]string) (model.Pet, error)
 
 	for _, p := range photos {
 		photo := model.Photo{
-			ID:         ulid.MustNew(ulid.Now(), rand.Reader),
-			ProviderID: pet.ID.String(),
-			Base64:     p,
+			ID:     ulid.MustNew(ulid.Now(), rand.Reader),
+			UserID: pet.CustomerID,
+			Base64: p,
 		}
 
 		err = photo.Save()

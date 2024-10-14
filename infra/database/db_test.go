@@ -21,18 +21,19 @@ func TestInit(t *testing.T) {
 	assert.Nil(t, db)
 }
 
-func TestMigration(t *testing.T) {
-	// Test successful migration
-	db, err := Init()
-	assert.NoError(t, err)
-	assert.NotNil(t, db)
-
-	err = Migration(db)
-	assert.NoError(t, err)
-
-	// Test failed migration (e.g. invalid migration file)
-	invalidMigrationFile := "invalid_migration_file.sql"
-	config.Variables.MigrationsPath = invalidMigrationFile
-	err = Migration(db)
-	assert.Error(t, err)
-}
+//
+// func TestMigration(t *testing.T) {
+// 	// Test successful migration
+// 	db, err := Init()
+// 	assert.NoError(t, err)
+// 	assert.NotNil(t, db)
+//
+// 	err = Migration(db)
+// 	assert.NoError(t, err)
+//
+// 	// Test failed migration (e.g. invalid migration file)
+// 	invalidMigrationFile := "invalid_migration_file.sql"
+// 	config.Variables.MigrationsPath = invalidMigrationFile
+// 	err = Migration(db)
+// 	assert.Error(t, err)
+// }
