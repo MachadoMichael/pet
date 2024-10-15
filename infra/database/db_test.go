@@ -14,7 +14,12 @@ type MockDB struct {
 
 func (m *MockDB) Open(database, connStr string) (*sql.DB, error) {
 	args := m.Called(database, connStr)
-	return args.Get(0).(*sql.DB), nil
+	return args.Get(0).(*sql.DB), args.Error(1)
+}
+
+func (m *MockDB) Ping() error {
+	args := m.Called()
+	return args.Error(0)
 }
 
 func TestOpenDB(t *testing.T) {
@@ -35,6 +40,23 @@ func TestOpenDB(t *testing.T) {
 	// Assert that the return values are as expected
 	assert.NoError(t, err)
 	assert.Equal(t, expectedDB, db)
+
+	// Assert that the expectations were met
+	mockDB.AssertExpectations(t)
+}
+
+func TestPingDB(t *testing.T) {
+	// Create an instance of MockDB
+	mockDB := new(MockDB)
+
+	// Set up expectations on the mock
+	mockDB.On("Ping").Return(nil)
+
+	// Call the Ping method
+	err := mockDB.Ping()
+
+	// Assert that the return value is as expected
+	assert.NoError(t, err)
 
 	// Assert that the expectations were met
 	mockDB.AssertExpectations(t)
