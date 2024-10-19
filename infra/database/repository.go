@@ -7,7 +7,7 @@ import (
 )
 
 type Repository[T any] interface {
-	Create(model T) error
+	Create(model T) (T, error)
 	Read() ([]T, error)
 	ReadOne(id ulid.ULID) (T, error)
 	Update(id ulid.ULID, model T) error
@@ -17,6 +17,6 @@ type Repository[T any] interface {
 }
 
 type Repo[T any] struct {
-	db        *sql.DB
-	tableName string
+	DB        *sql.DB
+	TableName string
 }

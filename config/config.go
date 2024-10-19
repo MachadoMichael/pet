@@ -20,16 +20,16 @@ type Config struct {
 
 var Variables *Config
 
-func Init() error {
+func Load() {
 	err := gotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
-		return err
+		panic(err.Error())
 	}
 
 	cacheName, err := strconv.Atoi(os.Getenv("CACHE_DB_NAME"))
 	if err != nil {
-		return err
+		panic(err.Error())
 	}
 
 	Variables = &Config{
@@ -41,6 +41,4 @@ func Init() error {
 		CacheName:      cacheName,
 		MigrationsPath: os.Getenv("MIGRATIONS_PATH"),
 	}
-
-	return nil
 }
