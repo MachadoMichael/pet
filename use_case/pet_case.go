@@ -4,24 +4,25 @@ import (
 	"crypto/rand"
 
 	"github.com/MachadoMichael/pet/dto"
+	"github.com/MachadoMichael/pet/infra/database"
 	"github.com/MachadoMichael/pet/model"
 	"github.com/oklog/ulid"
 )
 
 type petCase struct {
-	repository database.Repository
+	repository database.Repository[model.Pet]
 	photoCase  *photoCase
 }
 
-func NewPetCase(repository database.Repository, photoCase *photoCase) *petCase {
+func NewPetCase(repo database.Repository[model.Pet], photoCase *photoCase) *petCase {
 	return &petCase{
-		repository: repository,
+		repository: repo,
 		photoCase:  photoCase,
 	}
 }
 
 func (p *petCase) Create(dto dto.NewPetDTO, photos [5]string) (model.Pet, error) {
-	pet := model.Pet{
+	petModel := model.Pet{
 		ID:               ulid.MustNew(ulid.Now(), rand.Reader),
 		CustomerID:       dto.CustomerID,
 		EmergencyContact: dto.EmergencyContact,
@@ -35,23 +36,18 @@ func (p *petCase) Create(dto dto.NewPetDTO, photos [5]string) (model.Pet, error)
 		Weight:           dto.Weight,
 	}
 
-	err := pet.Save()
-	if err != nil {
-		return pet, err
-	}
-
 	for _, p := range photos {
-		photo := model.Photo{
+		photoModel := model.Photo{
 			ID:     ulid.MustNew(ulid.Now(), rand.Reader),
-			UserID: pet.CustomerID,
+			UserID: petModel.CustomerID,
 			Base64: p,
 		}
 
-		err = photo.Save()
+		photo, err = photoCase.Create(p, petModel.CustomerID)
 		if err != nil {
-			return pet, err
+			return petModel, err
 		}
 	}
 
-	return p.repository.Save(pet)
+	return p.repository.Create(petModel)
 }
