@@ -12,7 +12,6 @@ const port = ":4000"
 
 func Init() (*http.Server, error) {
 	r := chi.NewRouter()
-
 	cors := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
